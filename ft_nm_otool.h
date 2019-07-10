@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:11:43 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/10 17:51:37 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/10 18:01:40 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # include <fcntl.h>
 # include <sys/mman.h>
 # include <sys/types.h>
-
-# define TOOL_NAME "template"
 
 int				action(int fd, struct stat stats, char *flags);
 #endif

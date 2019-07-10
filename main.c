@@ -6,11 +6,11 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:09:46 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/10 17:27:15 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/10 18:01:55 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm-otool.h"
+#include "ft_nm_otool.h"
 
 static char	isaflag(char byte)
 {
