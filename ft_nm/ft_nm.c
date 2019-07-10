@@ -6,19 +6,31 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:09:46 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/10 17:15:31 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/10 17:58:20 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
-void		nm(int fd, struct stat stats, char *flags)
+int		handle_archive()
+{
+
+}
+
+int		action(int fd, struct stat stats, char *flags)
 {
 	void	*mount;
+	int32_t	magic;
 
 	(void)flags;
 	mount = mmap(NULL, stats.st_size, PROT_READ, 0, fd, 0);
-	// Do stuff
-
+	//check magic number
+	magic = *(int32_t *)mount;
+	if (ft_strncmp(mount, ARMAG, SARMAG))
+		recurse();
+	else if (magic == MH_MAGIC_64 || magic == MH_CIGAM_64)
+		(void)0;
+		else if (magic == MH_MAGIC || magic == MH_CIGAM)
+		(void)0;
 	munmap(mount, stats.st_size);
 }

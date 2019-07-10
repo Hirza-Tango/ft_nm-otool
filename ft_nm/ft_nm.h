@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_nm_otool.h                                      :+:      :+:    :+:   */
+/*   ft_nm.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/04 13:11:43 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/10 17:51:37 by dslogrov         ###   ########.fr       */
+/*   Created: 2019/07/10 17:32:04 by dslogrov          #+#    #+#             */
+/*   Updated: 2019/07/10 17:50:20 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_NM_OTOOL_H
-# define FT_NM_OTOOL_H
+#ifndef FT_NM_H
+# define FT_NM_H
 
-# include "libft.h"
-# include "ft_printf.h"
+# define TOOL_NAME "ft_nm"
 
-# include <errno.h>
-# include <sys/stat.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <sys/mman.h>
-# include <sys/types.h>
+# include "../ft_nm_otool.h"
+# include <mach-o/fat.h>
+# include <mach-o/loader.h>
+# include <mach-o/nlist.h>
+# include <ar.h>
 
-# define TOOL_NAME "template"
-
-int				action(int fd, struct stat stats, char *flags);
 #endif
