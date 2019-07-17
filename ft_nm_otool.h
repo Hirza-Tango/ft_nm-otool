@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:11:43 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/15 11:20:11 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/17 16:46:33 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,15 @@
 # include <fcntl.h>
 # include <sys/mman.h>
 # include <sys/types.h>
+# include <mach-o/fat.h>
+# include <mach-o/loader.h>
+# include <mach-o/nlist.h>
+# include <ar.h>
 
 # ifndef TOOL_NAME
 #  define TOOL_NAME "undefined"
 # endif
 
-int				action(int fd, struct stat stats, char *flags);
+int			file_handle(void *region, size_t size, char *name, char *flags);
+int 		isaflag(char flag);
 #endif

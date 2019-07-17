@@ -6,15 +6,14 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:09:46 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/10 18:01:55 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/17 16:39:23 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm_otool.h"
 
-static char	isaflag(char byte)
+int			isaflag(char c)
 {
-	(void)byte;
 	return (0);
 }
 
@@ -44,9 +43,7 @@ static char	*flag_parse(char **argv[])
 		(*argv)++;
 	}
 	flags[k] = 0;
-	if (k)
-		return (ft_strdup(flags));
-	return (NULL);
+	return (k ? ft_strdup(flags) : NULL);
 }
 
 int			main(int argc, char *argv[])
@@ -54,21 +51,24 @@ int			main(int argc, char *argv[])
 	char		*flags;
 	struct stat	stats;
 	int			fd;
+	void		*mount;
 
 	(void)argc;
 	flags = flag_parse(&argv);
-
-	ft_printf("%s\n", flags);
 	while (*argv)
 	{
 		fd = open(*argv, O_RDONLY);
 		if (fstat(fd, &stats) == -1)
 		{
-			ft_printf_fd(2, "%s: '%s': ", TOOL_NAME,  *argv);
+			ft_printf_fd(2, "%s: '%s': ", TOOL_NAME, *argv);
 			perror(NULL);
 		}
 		else
-			action(fd, stats, flags);
+		{
+			mount = mmap(NULL, stats.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+			file_handle(mount, stats.st_size, *argv, flags);
+			munmap(mount, stats.st_size);
+		}
 		close(fd);
 		argv++;
 	}
