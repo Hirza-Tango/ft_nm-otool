@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:11:43 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/17 16:46:33 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/19 12:01:07 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@
 # endif
 
 int			file_handle(void *region, size_t size, char *name, char *flags);
-int 		isaflag(char flag);
+int			isaflag(char flag);
 #endif
