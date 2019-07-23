@@ -6,14 +6,17 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:09:46 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/17 16:39:23 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/23 18:29:32 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm_otool.h"
 
+char		*g_name;
+
 int			isaflag(char c)
 {
+	(void)c;
 	return (0);
 }
 
@@ -39,7 +42,7 @@ static char	*flag_parse(char **argv[])
 				flags[k++] = (**argv)[j];
 		if ((**argv)[j])
 			exit(ft_printf_fd(2, "%s: invalid option -- '%c'\n",
-				TOOL_NAME, (**argv)[j]));
+				g_name, (**argv)[j]));
 		(*argv)++;
 	}
 	flags[k] = 0;
@@ -54,13 +57,14 @@ int			main(int argc, char *argv[])
 	void		*mount;
 
 	(void)argc;
+	g_name = *argv;
 	flags = flag_parse(&argv);
 	while (*argv)
 	{
 		fd = open(*argv, O_RDONLY);
 		if (fstat(fd, &stats) == -1)
 		{
-			ft_printf_fd(2, "%s: '%s': ", TOOL_NAME, *argv);
+			ft_printf_fd(2, "%s: '%s': ", g_name, *argv);
 			perror(NULL);
 		}
 		else
