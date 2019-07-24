@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:11:43 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/24 14:23:16 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/24 18:31:45 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <sys/mman.h>
 # include <sys/types.h>
 
-# include <stab.h>
 # include <mach-o/fat.h>
 # include <mach-o/loader.h>
 # include <mach-o/nlist.h>
@@ -41,7 +40,7 @@ extern char	*g_name;
 int			file_handle(void *region, size_t size, char *name, char *flags);
 int			isaflag(char flag);
 int			do_stuff_64(void *command, char swap, void *file);
-int			do_stuff_32(void *region, char swap, void *file);
+int			do_stuff_32(void *command, char swap, void *file);
 uint64_t	endian_64(uint64_t number, const char swap);
 uint32_t	endian_32(uint32_t number, const char swap);
 #endif
