@@ -6,13 +6,13 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 06:42:38 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/23 18:14:38 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/24 14:38:32 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm_otool.h"
 
-uint32_t	endian_32(uint32_t number, char swap)
+uint32_t	endian_32(uint32_t number, const char swap)
 {
 	if (!swap)
 		return (number);
@@ -20,7 +20,7 @@ uint32_t	endian_32(uint32_t number, char swap)
 	return (number << 16) | (number >> 16);
 }
 
-uint64_t	endian_64(uint64_t number, char swap)
+uint64_t	endian_64(uint64_t number, const char swap)
 {
 	if (!swap)
 		return (number);

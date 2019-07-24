@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 16:38:43 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/23 18:50:08 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/24 14:44:52 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ int	handle_mh_64(void *region, size_t size, char *name, char *flags)
 	return (errno);
 }
 
-//TODO: find out what's messing with "gcc -c" file offsets
 int	handle_archive(void *region, size_t size, char *name, char *flags)
 {
 	struct ar_hdr	header;
 	const void		*end = region + size;
 	size_t			name_len;
 
+	ft_printf("Archive : %s\n", name);
 	region += SARMAG;
 	header = *((struct ar_hdr *)(region));
 	region += sizeof(header) + ft_atoi(header.ar_size);
@@ -73,33 +73,37 @@ int	handle_archive(void *region, size_t size, char *name, char *flags)
 }
 
 /*
-** Since nm only supports mach-o binaries, only achictectures with supported
-** mach-o binaries are read
+** Since nm only supports mach-o binaries, only architectures with supported
+** mach-o binaries are read (x86_64 preferentially, else x86/i386)
 */
 
-int	handle_fat(void *region, size_t size, char *name, char *flags)
+int	handle_fat(void *region, char *name, char *flags)
 {
 	struct fat_header	header;
 	struct fat_arch		arch;
-	char				swap;
+	const char			swp = ((struct fat_header *)region)->magic == FAT_CIGAM;
+	const void			*file = region;
+	uint32_t			arch_num;
 
 	header = *((struct fat_header *)(region));
-	swap = header.magic == FAT_CIGAM;
-	header.nfat_arch = endian_32(header.nfat_arch, swap);
 	region += sizeof(struct fat_header);
-	while (header.nfat_arch--)
+	arch_num = endian_32(header.nfat_arch, swp);
+	while (arch_num-- && (arch = *((struct fat_arch *)(region))).size)
 	{
-		arch = *((struct fat_arch *)(region));
-		if (endian_32(arch.cputype, swap) == CPU_TYPE_I386)
-			return (handle_mh(region + endian_32(arch.offset, swap),
-				endian_32(arch.size, swap), name, flags));
-		else if (endian_32(arch.cputype, swap) == CPU_TYPE_X86_64)
-			return (handle_mh_64(region + endian_32(arch.offset, swap),
-				endian_32(arch.size, swap), name, flags));
+		if (endian_32(arch.cputype, swp) == CPU_TYPE_X86_64)
+			return (file_handle((void *)file + endian_32(arch.offset, swp),
+				endian_32(arch.size, swp), name, flags));
 			region += sizeof(struct fat_arch);
 	}
-	(void)size;
-	return (errno);
+	arch_num = endian_32(header.nfat_arch, swp);
+	while (arch_num-- && (arch = *((struct fat_arch *)(region))).size)
+	{
+		if (endian_32(arch.cputype, swp) == CPU_TYPE_X86)
+			return (file_handle((void *)file + endian_32(arch.offset, swp),
+				endian_32(arch.size, swp), name, flags));
+			region += sizeof(struct fat_arch);
+	}
+	return (0);
 }
 
 int	file_handle(void *region, size_t size, char *name, char *flags)
@@ -114,7 +118,7 @@ int	file_handle(void *region, size_t size, char *name, char *flags)
 	else if (magic == MH_MAGIC_64 || magic == MH_CIGAM_64)
 		handle_mh_64(region, size, name, flags);
 	else if (magic == FAT_MAGIC || magic == FAT_CIGAM)
-		handle_fat(region, size, name, flags);
+		handle_fat(region, name, flags);
 	else if (magic == FAT_MAGIC_64 || magic == FAT_CIGAM_64)
 		(void)0;
 	return (errno);
