@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:11:43 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/24 18:31:45 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/24 18:49:17 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,6 @@
 # include <mach-o/loader.h>
 # include <mach-o/nlist.h>
 # include <ar.h>
-
-# ifdef OTOOL
-#  define TOOL_NAME "otool"
-# elseif NM
-#  define TOOL_NAME "nm"
-# endif
 
 extern char	*g_name;
 

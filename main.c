@@ -6,13 +6,11 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:09:46 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/23 18:29:32 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/24 18:49:34 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm_otool.h"
-
-char		*g_name;
 
 int			isaflag(char c)
 {

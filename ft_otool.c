@@ -6,11 +6,13 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 12:25:22 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/24 14:21:05 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/24 18:46:04 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_nm_otool.h>
+
+char *g_name = "ft_otool";
 
 int	do_stuff_64(void *region, char swap, void *file)
 {

@@ -6,11 +6,13 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 06:21:45 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/24 18:36:33 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/24 18:48:21 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_nm_otool.h>
+
+char *g_name = "ft_nm";
 
 //TODO: proper symbol lookup
 
@@ -18,8 +20,10 @@ char	type_parse(char n_type, char n_sect)
 {
 	char ret;
 
-	if ((n_type & N_TYPE) == N_UNDF || (n_type & N_TYPE) == N_PBUD)
+	if ((n_type & N_TYPE) == N_UNDF)
 		ret = 'u';
+	//else if ((n_type & N_TYPE) == N_PBUD)
+	//	ret = 'd';
 	else if ((n_type & N_TYPE) == N_ABS)
 		ret = 'a';
 	else if ((n_type & N_TYPE) == N_INDR)

@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 16:38:43 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/24 14:44:52 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/24 18:45:59 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	handle_mh(void *region, size_t size, char *name, char *flags)
 	struct mach_header	header;
 	const void			*file = region;
 
-	if (name)
+	if (name && !ft_strcmp(g_name, "ft_otool"))
 		ft_printf("%s:\n", name);
 	(void)(size && flags);
 	header = *((struct mach_header *)(region));
@@ -35,7 +35,7 @@ int	handle_mh_64(void *region, size_t size, char *name, char *flags)
 	struct mach_header_64		header;
 	const void					*file = region;
 
-	if (name)
+	if (name && !ft_strcmp(g_name, "ft_otool"))
 		ft_printf("%s:\n", name);
 	(void)(size && flags);
 	header = *((struct mach_header_64 *)(region));
