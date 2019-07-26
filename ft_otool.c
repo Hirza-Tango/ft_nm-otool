@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/26 17:41:40 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/26 17:42:39 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/26 17:56:26 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ int	handle_mh(void *region, size_t size, char *name, char *flags)
 	struct mach_header	header;
 	const void			*file = region;
 
-	if (name && !ft_strcmp(g_name, "ft_otool"))
-		ft_printf("%s:\n", name);
+	ft_printf("%s:\n", name);
 	(void)(size && flags);
 	header = *((struct mach_header *)(region));
 	region += sizeof(header);
