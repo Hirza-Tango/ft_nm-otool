@@ -7,8 +7,8 @@ REL_DEPS=$(DEPS:%=$(LIBFT_DIR)/%)
 CC=gcc
 CFLAGS=-Wall -Wextra -Werror -I . -I $(INCLUDES) -O0 -g
 CFILES= main.c file_handle.c utils.c
-NM_FILES=ft_nm.c
-OTOOL_FILES=ft_otool.c
+NM_FILES=ft_nm.c ft_nm_64.c
+OTOOL_FILES=ft_otool.c ft_otool_64.c
 OBJ=$(CFILES:%.c=build/%.o)
 NM_OBJ=$(NM_FILES:%.c=build/%.o)
 OTOOL_OBJ=$(OTOOL_FILES:%.c=build/%.o)

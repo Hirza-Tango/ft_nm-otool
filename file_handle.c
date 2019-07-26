@@ -6,47 +6,11 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 16:38:43 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/26 17:22:16 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/26 17:50:31 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm_otool.h"
-
-int	handle_mh(void *region, size_t size, char *name, char *flags)
-{
-	struct mach_header	header;
-	const void			*file = region;
-
-	if (name && !ft_strcmp(g_name, "ft_otool"))
-		ft_printf("%s:\n", name);
-	(void)(size && flags);
-	header = *((struct mach_header *)(region));
-	region += sizeof(header);
-	while (header.ncmds--)
-	{
-		do_stuff_32(region, header.magic == MH_CIGAM, (void *)file);
-		region += ((struct load_command *)region)->cmdsize;
-	}
-	return (errno);
-}
-
-int	handle_mh_64(void *region, size_t size, char *name, char *flags)
-{
-	struct mach_header_64		header;
-	const void					*file = region;
-
-	(void)(size && flags);
-	header = *((struct mach_header_64 *)(region));
-	region += sizeof(header);
-	if (name && !ft_strcmp(g_name, "ft_otool"))
-		ft_printf("%s:\n", name);
-	while (header.ncmds--)
-	{
-		do_stuff_64(region, header.magic == MH_CIGAM_64, (void *)file);
-		region += ((struct load_command *)region)->cmdsize;
-	}
-	return (errno);
-}
 
 int	handle_archive(void *region, size_t size, char *name, char *flags)
 {
@@ -109,7 +73,34 @@ int	handle_fat(void *region, char *name, char *flags)
 	return (0);
 }
 
-//TODO: fat64
+int	handle_fat_64(void *region, char *name, char *flags)
+{
+	struct fat_header	header;
+	struct fat_arch_64	arch;
+	const char			swp = ((struct fat_header *)region)->magic == FAT_CIGAM_64;
+	const void			*file = region;
+	uint32_t			arch_num;
+
+	header = *((struct fat_header *)(region));
+	region += sizeof(struct fat_header);
+	arch_num = endian_32(header.nfat_arch, swp);
+	while (arch_num-- && (arch = *((struct fat_arch_64 *)(region))).size)
+	{
+		if (endian_32(arch.cputype, swp) == CPU_TYPE_X86_64)
+			return (file_handle((void *)file + endian_64(arch.offset, swp),
+				endian_64(arch.size, swp), name, flags));
+			region += sizeof(struct fat_arch);
+	}
+	arch_num = endian_32(header.nfat_arch, swp);
+	while (arch_num-- && (arch = *((struct fat_arch_64 *)(region))).size)
+	{
+		if (endian_32(arch.cputype, swp) == CPU_TYPE_X86)
+			return (file_handle((void *)file + endian_64(arch.offset, swp),
+				endian_64(arch.size, swp), name, flags));
+			region += sizeof(struct fat_arch);
+	}
+	return (0);
+}
 
 int	file_handle(void *region, size_t size, char *name, char *flags)
 {
@@ -125,6 +116,6 @@ int	file_handle(void *region, size_t size, char *name, char *flags)
 	else if (magic == FAT_MAGIC || magic == FAT_CIGAM)
 		handle_fat(region, name, flags);
 	else if (magic == FAT_MAGIC_64 || magic == FAT_CIGAM_64)
-		(void)0;
+		handle_fat_64(region, name, flags);
 	return (errno);
 }

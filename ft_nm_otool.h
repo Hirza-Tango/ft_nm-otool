@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:11:43 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/24 18:49:17 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/26 17:52:04 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ extern char	*g_name;
 
 int			file_handle(void *region, size_t size, char *name, char *flags);
 int			isaflag(char flag);
-int			do_stuff_64(void *command, char swap, void *file);
-int			do_stuff_32(void *command, char swap, void *file);
-uint64_t	endian_64(uint64_t number, const char swap);
+int			handle_mh(void *region, size_t size, char *name, char *flags);
+int			handle_mh_64(void *region, size_t size, char *name, char *flags);
 uint32_t	endian_32(uint32_t number, const char swap);
+uint64_t	endian_64(uint64_t number, const char swap);
 #endif

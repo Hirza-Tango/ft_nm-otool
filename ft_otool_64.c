@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_otool.c                                         :+:      :+:    :+:   */
+/*   ft_otool_64.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/26 17:41:40 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/26 17:42:39 by dslogrov         ###   ########.fr       */
+/*   Created: 2019/07/23 12:25:22 by dslogrov          #+#    #+#             */
+/*   Updated: 2019/07/26 17:41:39 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_nm_otool.h>
 
-int	do_stuff_32(void *region, char swap, void *file)
+char *g_name = "ft_otool";
+
+int	do_stuff_64(void *region, char swap, void *file)
 {
-	struct segment_command	segment;
-	struct section			section;
+	struct segment_command_64	segment;
+	struct section_64			section;
 
 	(void)swap;
-	if (((struct load_command *)region)->cmd != LC_SEGMENT)
+	if (((struct load_command *)region)->cmd != LC_SEGMENT_64)
 		return (0);
-	segment = *((struct segment_command *)region);
-	region += sizeof(struct segment_command);
+	segment = *((struct segment_command_64 *)region);
+	region += sizeof(struct segment_command_64);
 	while (segment.nsects--)
 	{
-		section = *((struct section *)region);
+		section = *((struct section_64 *)region);
 		if (!strcmp(section.sectname, "__text")
 			&& !strcmp(section.segname, "__TEXT"))
 		{
@@ -33,24 +35,24 @@ int	do_stuff_32(void *region, char swap, void *file)
 			(off_t)section.addr, 1);
 			return (1);
 		}
-		region += sizeof(struct section);
+		region += sizeof(struct section_64);
 	}
 	return (0);
 }
 
-int	handle_mh(void *region, size_t size, char *name, char *flags)
+int	handle_mh_64(void *region, size_t size, char *name, char *flags)
 {
-	struct mach_header	header;
-	const void			*file = region;
+	struct mach_header_64		header;
+	const void					*file = region;
 
+	(void)(size && flags);
+	header = *((struct mach_header_64 *)(region));
+	region += sizeof(header);
 	if (name && !ft_strcmp(g_name, "ft_otool"))
 		ft_printf("%s:\n", name);
-	(void)(size && flags);
-	header = *((struct mach_header *)(region));
-	region += sizeof(header);
 	while (header.ncmds--)
 	{
-		do_stuff_32(region, header.magic == MH_CIGAM, (void *)file);
+		do_stuff_64(region, header.magic == MH_CIGAM_64, (void *)file);
 		region += ((struct load_command *)region)->cmdsize;
 	}
 	return (errno);
