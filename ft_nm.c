@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 06:21:45 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/24 18:48:21 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/26 17:22:49 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ char	type_parse(char n_type, char n_sect)
 
 	if ((n_type & N_TYPE) == N_UNDF)
 		ret = 'u';
-	//else if ((n_type & N_TYPE) == N_PBUD)
-	//	ret = 'd';
 	else if ((n_type & N_TYPE) == N_ABS)
 		ret = 'a';
 	else if ((n_type & N_TYPE) == N_INDR)
@@ -98,7 +96,9 @@ int		do_stuff_64(void *region, char swap, void *file)
 	return (0);
 }
 
-int			do_stuff_32(void *tmp, char swap, void *file)
+//TODO: this
+
+int		do_stuff_32(void *tmp, char swap, void *file)
 {
 	(void)(tmp && swap && file);
 	return (0);

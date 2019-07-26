@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 16:38:43 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/24 18:45:59 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/26 17:22:16 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int	handle_mh_64(void *region, size_t size, char *name, char *flags)
 	struct mach_header_64		header;
 	const void					*file = region;
 
-	if (name && !ft_strcmp(g_name, "ft_otool"))
-		ft_printf("%s:\n", name);
 	(void)(size && flags);
 	header = *((struct mach_header_64 *)(region));
 	region += sizeof(header);
+	if (name && !ft_strcmp(g_name, "ft_otool"))
+		ft_printf("%s:\n", name);
 	while (header.ncmds--)
 	{
 		do_stuff_64(region, header.magic == MH_CIGAM_64, (void *)file);
@@ -54,12 +54,15 @@ int	handle_archive(void *region, size_t size, char *name, char *flags)
 	const void		*end = region + size;
 	size_t			name_len;
 
-	ft_printf("Archive : %s\n", name);
+	if (!strcmp(g_name, "ft_otool"))
+		ft_printf("Archive : %s\n", name);
 	region += SARMAG;
 	header = *((struct ar_hdr *)(region));
 	region += sizeof(header) + ft_atoi(header.ar_size);
 	while (region < end)
 	{
+		if (!strcmp(g_name, "ft_nm"))
+			ft_printf("\n");
 		header = *((struct ar_hdr *)(region));
 		name_len = ft_strncmp(header.ar_name, "#1/", 3) ?
 			0 : ft_atoi(header.ar_name + 3);
@@ -105,6 +108,8 @@ int	handle_fat(void *region, char *name, char *flags)
 	}
 	return (0);
 }
+
+//TODO: fat64
 
 int	file_handle(void *region, size_t size, char *name, char *flags)
 {

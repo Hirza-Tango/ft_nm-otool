@@ -6,7 +6,7 @@ INCLUDES=$(LIBFT_DIR)/includes
 REL_DEPS=$(DEPS:%=$(LIBFT_DIR)/%)
 CC=gcc
 CFLAGS=-Wall -Wextra -Werror -I . -I $(INCLUDES) -O0 -g
-CFILES= main.c file_handle.c endian.c
+CFILES= main.c file_handle.c utils.c
 NM_FILES=ft_nm.c
 OTOOL_FILES=ft_otool.c
 OBJ=$(CFILES:%.c=build/%.o)
