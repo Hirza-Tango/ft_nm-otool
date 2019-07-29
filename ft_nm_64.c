@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 06:21:45 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/29 13:46:00 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/29 18:15:03 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ int		handle_mh_64(void *region, size_t size, char *name, char *flags)
 	size_t					segno;
 	char					sections[3];
 
-	(void)(size && flags && name);
+	(void)(size && flags);
+	if (name)
+		ft_printf("\n%s:\n", name);
 	ft_bzero(sections, 3);
 	segno = 1;
 	header = *((struct mach_header_64 *)(region));

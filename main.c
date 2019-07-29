@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:09:46 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/29 11:14:42 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/29 18:19:22 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int			main(int argc, char *argv[])
 
 	(void)argc;
 	flags = flag_parse(&argv);
+	if (!*argv)
+		*(--argv) = "a.out";
 	while (*argv)
 	{
 		fd = open(*argv, O_RDONLY);
