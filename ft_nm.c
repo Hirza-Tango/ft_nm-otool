@@ -6,22 +6,87 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/26 17:38:29 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/29 11:23:36 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/29 13:45:56 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_nm_otool.h>
 
-//TODO: this
-
-int		do_stuff_32(void *tmp, char swap, void *file)
+int		do_stuff_32(void *region, char swap, void *file, char *sections)
 {
-	(void)(tmp && swap && file);
+	struct symtab_command	symtab;
+	struct nlist			*list;
+	struct nlist			*tmp;
+
+	symtab = *((struct symtab_command *)region);
+	list = sort_symbols(file + endian_32(symtab.symoff, swap), symtab.nsyms,
+		sizeof(struct nlist), file + symtab.stroff);
+	tmp = list;
+	while (symtab.nsyms--)
+	{
+		if (tmp->n_un.n_strx && !(tmp->n_type & N_STAB))
+		{
+			if ((tmp->n_type & N_TYPE) != N_UNDF)
+				ft_printf("%016llx ", tmp->n_value);
+			else
+				ft_printf("%16s ", "");
+			ft_printf("%c %s\n", type_parse(tmp->n_type, tmp->n_sect, sections),
+				file + symtab.stroff + tmp->n_un.n_strx);
+		}
+		tmp++;
+	}
+	free(list);
 	return (0);
+}
+
+size_t	check_sections(char *sections, size_t segno, void *region)
+{
+	struct segment_command	segment;
+	struct section			section;
+
+	if (((struct load_command *)region)->cmd != LC_SEGMENT)
+		return (0);
+	segment = *((struct segment_command *)region);
+	region += sizeof(struct segment_command);
+	while (segment.nsects--)
+	{
+		section = *((struct section *)region);
+		if (!strcmp(section.sectname, "__text")
+			&& !strcmp(section.segname, "__TEXT"))
+			sections[0] = segno;
+		else if (!strcmp(section.sectname, "__data")
+			&& !strcmp(section.segname, "__DATA"))
+			sections[1] = segno;
+		else if (!strcmp(section.sectname, "__bss")
+			&& !strcmp(section.segname, "__DATA"))
+			sections[2] = segno;
+		segno++;
+		region += sizeof(struct section);
+	}
+	return (segno);
 }
 
 int		handle_mh(void *region, size_t size, char *name, char *flags)
 {
-	(void)(size && flags && name && region);
-	return (errno);
+	const void			*file = region;
+	struct mach_header	header;
+	void				*symtab;
+	size_t				segno;
+	char				sections[3];
+
+	(void)(size && flags && name);
+	ft_bzero(sections, 3);
+	segno = 1;
+	header = *((struct mach_header *)(region));
+	region += sizeof(header);
+	while (header.ncmds--)
+	{
+		if (((struct load_command *)region)->cmd == LC_SEGMENT)
+			segno = check_sections(sections, segno, region);
+		else if (((struct load_command *)region)->cmd == LC_SYMTAB)
+			symtab = region;
+		region += ((struct load_command *)region)->cmdsize;
+	}
+	return (do_stuff_32(symtab, header.magic == MH_CIGAM, (void *)file,
+		sections));
 }

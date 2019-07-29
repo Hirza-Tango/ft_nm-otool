@@ -6,17 +6,13 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 06:21:45 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/29 11:25:49 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/29 13:46:00 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_nm_otool.h>
 
 char *g_name = "ft_nm";
-
-//TODO: matching 64 with 32
-
-
 
 int		do_stuff_64(void *region, char swap, void *file, char *sections)
 {
