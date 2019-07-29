@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/26 17:41:40 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/29 11:24:50 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/29 14:19:45 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ int	handle_mh(void *region, size_t size, char *name, char *flags)
 	struct mach_header	header;
 	const void			*file = region;
 
-	ft_printf("%s:\n", name);
 	(void)(size && flags);
+	if (name)
+		ft_printf("%s:\n", name);
 	header = *((struct mach_header *)(region));
 	region += sizeof(header);
 	while (header.ncmds--)

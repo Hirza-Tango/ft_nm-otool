@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 12:25:22 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/26 17:55:46 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/29 14:19:54 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	handle_mh_64(void *region, size_t size, char *name, char *flags)
 	(void)(size && flags);
 	header = *((struct mach_header_64 *)(region));
 	region += sizeof(header);
-	ft_printf("%s:\n", name);
+	if (name)
+		ft_printf("%s:\n", name);
 	while (header.ncmds--)
 	{
 		do_stuff_64(region, header.magic == MH_CIGAM_64, (void *)file);
