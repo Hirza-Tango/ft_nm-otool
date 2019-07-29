@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:11:43 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/26 17:52:04 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/29 11:27:06 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@
 extern char	*g_name;
 
 int			file_handle(void *region, size_t size, char *name, char *flags);
-int			isaflag(char flag);
 int			handle_mh(void *region, size_t size, char *name, char *flags);
 int			handle_mh_64(void *region, size_t size, char *name, char *flags);
 uint32_t	endian_32(uint32_t number, const char swap);
 uint64_t	endian_64(uint64_t number, const char swap);
+void		*sort_symbols(void *symbols, size_t n, size_t m, char *strtab);
+char		type_parse(char n_type, char n_sect, char *sections);
 #endif

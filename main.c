@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:09:46 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/24 18:49:34 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/29 11:14:42 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int			main(int argc, char *argv[])
 	void		*mount;
 
 	(void)argc;
-	g_name = *argv;
 	flags = flag_parse(&argv);
 	while (*argv)
 	{

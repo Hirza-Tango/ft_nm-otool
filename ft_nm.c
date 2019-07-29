@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/26 17:38:29 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/26 17:56:21 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/29 11:23:36 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,8 @@ int		do_stuff_32(void *tmp, char swap, void *file)
 	return (0);
 }
 
-int	handle_mh(void *region, size_t size, char *name, char *flags)
+int		handle_mh(void *region, size_t size, char *name, char *flags)
 {
-	struct mach_header	header;
-	const void			*file = region;
-
-	(void)(size && flags);
-	header = *((struct mach_header *)(region));
-	region += sizeof(header);
-	while (header.ncmds--)
-	{
-		do_stuff_32(region, header.magic == MH_CIGAM, (void *)file);
-		region += ((struct load_command *)region)->cmdsize;
-	}
+	(void)(size && flags && name && region);
 	return (errno);
 }

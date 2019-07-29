@@ -6,7 +6,7 @@
 /*   By: dslogrov <dslogrove@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/17 16:38:43 by dslogrov          #+#    #+#             */
-/*   Updated: 2019/07/26 17:50:31 by dslogrov         ###   ########.fr       */
+/*   Updated: 2019/07/29 11:22:23 by dslogrov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	handle_fat_64(void *region, char *name, char *flags)
 {
 	struct fat_header	header;
 	struct fat_arch_64	arch;
-	const char			swp = ((struct fat_header *)region)->magic == FAT_CIGAM_64;
+	const char			swp = *((uint32_t *)region) == FAT_CIGAM_64;
 	const void			*file = region;
 	uint32_t			arch_num;
 
